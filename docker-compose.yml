@@ -1,0 +1,39 @@
+version: '3.8'
+
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGODB_URI=${MONGODB_URI}
+      - JWT_SECRET=${JWT_SECRET}
+      - JWT_EXPIRE=${JWT_EXPIRE}
+      - GROQ_API_KEY=${GROQ_API_KEY}
+      - FRONTEND_URL=http://localhost
+      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
+      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
+      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
+    restart: always
+    volumes:
+      - uploads_volume:/app/uploads
+
+  frontend:
+    build:
+      context: ./
+      dockerfile: frontend.Dockerfile
+      args:
+        # IMPORTANT: During compilation, this must point to the address of the backend API
+        # as resolved from the client's browser (e.g. http://localhost:3001 locally,
+        # or https://api.yourdomain.com in production)
+        - VITE_API_URL=http://localhost:3001
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: always
+
+volumes:
+  uploads_volume:
