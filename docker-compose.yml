@@ -7,15 +7,10 @@ services:
       dockerfile: Dockerfile
     ports:
       - "3001:3001"
+    env_file:
+      - ./backend/.env
     environment:
-      - MONGODB_URI=${MONGODB_URI}
-      - JWT_SECRET=${JWT_SECRET}
-      - JWT_EXPIRE=${JWT_EXPIRE}
-      - GROQ_API_KEY=${GROQ_API_KEY}
       - FRONTEND_URL=http://localhost
-      - CLOUDINARY_CLOUD_NAME=${CLOUDINARY_CLOUD_NAME}
-      - CLOUDINARY_API_KEY=${CLOUDINARY_API_KEY}
-      - CLOUDINARY_API_SECRET=${CLOUDINARY_API_SECRET}
     restart: always
     volumes:
       - uploads_volume:/app/uploads
