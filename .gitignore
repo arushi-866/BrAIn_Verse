@@ -4,7 +4,6 @@ backend/.env
 
 # Dependencies
 node_modules/
-package-lock.json
 
 # Build outputs
 dist/
@@ -34,4 +33,3 @@ Thumbs.db
 .vite/
 uploads/
 backend/uploads/
-
